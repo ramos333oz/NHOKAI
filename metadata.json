@@ -1,0 +1,6 @@
+{
+  "name": "NHOKAI Solution",
+  "description": "A highly polished, immersive solutions page showcasing UniCart: an interactive, mobile-first campus marketplace prototype for verified UiTM students featuring secure booking flows, real-time chat, and AI-assisted tagging.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
