@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import SolutionsView from "./components/SolutionsView";
+import nhokaiLogo from "../Logo/nhokai_4-removebg-preview.png";
 
 interface TeamMember {
   id: string;
@@ -19,7 +20,8 @@ interface TeamMember {
   icon: string;       // Material Symbols icon name for their placeholder illustration
   skills?: string[];
   quote?: string;
-  imageUrl: string;   // High-quality photographic background for atmospheric accordion behavior
+  imageUrl: string;   // High-quality transparent character representation
+  bgColor: string;    // Deep rich dynamic background color for scenes
 }
 
 export default function App() {
@@ -27,7 +29,21 @@ export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("all");
-  const [activeId, setActiveId] = useState<string>("moussa");
+  const [showActiveCore, setShowActiveCore] = useState<boolean>(true);
+  
+  // Custom states for 3D character carousel
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const showToast = (message: string) => {
     setToastMessage(message);
@@ -42,7 +58,7 @@ export default function App() {
     
     if (section === "Our Team") {
       setActiveView("team");
-      showToast("Loading NHOKAI solutions team roster...");
+      showToast("Loading NHOKAI solutions interactive team roster...");
     } else if (section === "Home") {
       setActiveView("404");
       showToast("Returned to Hero page.");
@@ -68,7 +84,8 @@ export default function App() {
        icon: "rocket_launch",
        skills: ["Agile PM", "React", "Node.js", "Express", "System Design"],
        quote: "Delivers scalable, modular full-stack solutions on tight schedules.",
-       imageUrl: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-man-1.png",
+       bgColor: "#FAF7EC"
     },
     {
        id: "khairul",
@@ -83,7 +100,8 @@ export default function App() {
        icon: "code_blocks",
        skills: ["Fullstack DB", "REST APIs", "Tailwind CSS", "Database Design"],
        quote: "Uncompromised focus on clean API structures and dynamic layouts.",
-       imageUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-man-2.png",
+       bgColor: "#FAF0FF"
     },
     {
        id: "ikram",
@@ -98,7 +116,8 @@ export default function App() {
        icon: "admin_panel_settings",
        skills: ["PenTesting", "QA Automation", "OWASP Standards", "Audit Sanity"],
        quote: "Safeguards modern applications against severe web vulnerabilities.",
-       imageUrl: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-woman-1.png",
+       bgColor: "#EDFDF2"
     },
     {
        id: "naufal",
@@ -113,7 +132,8 @@ export default function App() {
        icon: "account_tree",
        skills: ["CI/CD Pipelines", "Docker Core", "Cloud Registry", "Bash Automation"],
        quote: "Automates complex integration processes to ensure reliable releases.",
-       imageUrl: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-woman-2.png",
+       bgColor: "#FFF5F0"
     },
     {
        id: "haziq",
@@ -128,7 +148,8 @@ export default function App() {
        icon: "analytics",
        skills: ["SaaS Analysis", "UX Blueprinting", "User Stories", "Project Scope"],
        quote: "Translates complex business flows into elegant functional layouts.",
-       imageUrl: "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-man-1.png",
+       bgColor: "#F0F8FF"
     },
     {
        id: "azmil",
@@ -143,16 +164,100 @@ export default function App() {
        icon: "query_stats",
        skills: ["Market Dynamics", "FinTech Models", "Risk Analysis", "ROI Estimation"],
        quote: "Aligns software design choices directly with high-impact market needs.",
-       imageUrl: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80"
+       imageUrl: "https://assets.codepen.io/3685267/res-react-dash-user-card-man-2.png",
+       bgColor: "#F5F3FF"
     }
   ];
 
-  const filteredTeam = filterCategory === "all" 
-    ? teamMembers 
-    : teamMembers.filter(m => m.category === filterCategory);
+  const navigate = (direction: 'next' | 'prev') => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    const N = teamMembers.length;
+    if (direction === 'next') {
+      setActiveIndex((prev) => (prev + 1) % N);
+    } else {
+      setActiveIndex((prev) => (prev + N - 1) % N);
+    }
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 650);
+  };
+
+  const centerIndex = activeIndex;
+  const leftIndex = (activeIndex + teamMembers.length - 1) % teamMembers.length;
+  const rightIndex = (activeIndex + 1) % teamMembers.length;
+  const backIndex = (activeIndex + 2) % teamMembers.length;
+
+  const getStyleForIndex = (index: number) => {
+    let role: 'center' | 'left' | 'right' | 'back' = 'back';
+    if (index === centerIndex) role = 'center';
+    else if (index === leftIndex) role = 'left';
+    else if (index === rightIndex) role = 'right';
+
+    const duration = '650ms';
+    const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+    switch (role) {
+      case 'center':
+        return {
+          left: '50%',
+          height: isMobile ? '60%' : '92%',
+          bottom: isMobile ? '22%' : '0px',
+          transform: `translateX(-50%) scale(${isMobile ? 1.25 : 1.68})`,
+          filter: 'blur(0px)',
+          opacity: 1,
+          zIndex: 20,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+      case 'left':
+        return {
+          left: isMobile ? '20%' : '30%',
+          height: isMobile ? '16%' : '28%',
+          bottom: isMobile ? '32%' : '12%',
+          transform: `translateX(-50%) scale(1)`,
+          filter: 'blur(2px)',
+          opacity: 0.85,
+          zIndex: 10,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+      case 'right':
+        return {
+          left: isMobile ? '80%' : '70%',
+          height: isMobile ? '16%' : '28%',
+          bottom: isMobile ? '32%' : '12%',
+          transform: `translateX(-50%) scale(1)`,
+          filter: 'blur(2px)',
+          opacity: 0.85,
+          zIndex: 10,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+      case 'back':
+      default:
+        return {
+          left: '50%',
+          height: isMobile ? '13%' : '22%',
+          bottom: isMobile ? '32%' : '12%',
+          transform: `translateX(-50%) scale(0.6)`,
+          filter: 'blur(10px)',
+          opacity: 0,
+          zIndex: 5,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+    }
+  };
 
   return (
-    <div className="w-full h-screen flex flex-col justify-between overflow-hidden select-none relative font-sans text-[#1a1a1a]">
+    <div 
+      style={{
+        backgroundColor: activeView === "team" ? teamMembers[activeIndex].bgColor : "var(--bg-page)",
+        transition: "background-color 650ms cubic-bezier(0.4, 0, 0.2, 1)"
+      }}
+      className="w-full h-screen flex flex-col justify-between overflow-hidden select-none relative font-sans text-[#1a1a1a]"
+    >
       
       {/* Background Video for Hero Page */}
       {activeView === "404" && (
@@ -188,16 +293,15 @@ export default function App() {
           <a 
             href="#" 
             onClick={(e) => handleLinkClick(e, "Home")} 
-            className="flex items-center gap-[9px] group transition-transform duration-200 hover:scale-[1.02]"
+            className="flex items-center gap-[10px] group transition-transform duration-200 hover:scale-[1.02]"
             id="navbar-logo"
           >
             <img 
-              src="https://pub-f170a2592d2c4a1485466404c36807be.r2.dev/Tests/logoipsum-415.svg" 
-              alt="nexto logo" 
-              className="h-[28px] select-none pointer-events-none"
-              style={{ filter: "brightness(0)" }}
+              src={nhokaiLogo} 
+              alt="NHOKAI logo" 
+              className="h-[36px] w-auto select-none pointer-events-none transition-all duration-300 object-contain"
             />
-            <span className="text-[20px] font-bold tracking-[-0.3px] text-[#111111]">
+            <span className="text-[20px] font-bold tracking-[-0.3px] transition-colors duration-300 text-[#111111]">
               NHOKAI
             </span>
           </a>
@@ -220,7 +324,7 @@ export default function App() {
                 activeView === "solutions" ? "font-semibold text-[#111111] hover:text-[#111111]" : "font-light text-[#1a1a1a]/65 hover:text-[#1a1a1a]"
               }`}
             >
-              Solutions <span className="text-[9px] text-[#1a1a1a]/50">▾</span>
+              Solutions <span className="text-[9px] transition-colors duration-300 text-[#1a1a1a]/50">▾</span>
             </a>
           </nav>
 
@@ -233,9 +337,9 @@ export default function App() {
                 boxShadow: '0 4px 15px rgba(0,0,0,0.15)' 
               }}
               onClick={(e) => handleLinkClick(e, "Let's Connect")}
-              className="flex items-center gap-[9px] text-white rounded-[40px] pt-[5px] pb-[5px] pr-[16px] pl-[5px] transition-all duration-200 cursor-pointer text-[13px] font-medium hover:-translate-y-[1px] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] hover:brightness-110 active:scale-95"
+              className="flex items-center gap-[9px] rounded-[40px] pt-[5px] pb-[5px] pr-[16px] pl-[5px] transition-all duration-200 cursor-pointer text-[13px] font-medium hover:-translate-y-[1px] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] hover:brightness-110 active:scale-95 text-white"
             >
-              <div className="w-[24px] h-[24px] rounded-full bg-white flex items-center justify-center text-black shadow-sm shrink-0">
+              <div className="w-[24px] h-[24px] rounded-full flex items-center justify-center shadow-sm shrink-0 bg-white text-black">
                 <svg className="w-[12px] h-[12px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
@@ -244,7 +348,6 @@ export default function App() {
             </button>
           </div>
 
-          {/* Mobile Hamburger menu */}
           <button 
             id="mobile-menu-burger"
             className="md:hidden flex flex-col justify-center items-center w-8 h-8 z-50 relative focus:outline-none cursor-pointer" 
@@ -252,9 +355,9 @@ export default function App() {
             aria-label="Toggle mobile menu"
           >
             <div className="w-[24px] h-[16px] flex flex-col justify-between">
-              <span className={`block w-[24px] h-[2px] bg-[#111111] transition-all duration-300 rounded-full ${isMobileMenuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
-              <span className={`block w-[24px] h-[2px] bg-[#111111] transition-all duration-200 rounded-full ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-              <span className={`block w-[24px] h-[2px] bg-[#111111] transition-all duration-300 rounded-full ${isMobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+              <span className={`block w-[24px] h-[2px] transition-all duration-300 rounded-full ${isMobileMenuOpen ? 'rotate-45 translate-y-[7px] bg-[#111111]' : 'bg-[#111111]'}`} />
+              <span className={`block w-[24px] h-[2px] transition-all duration-200 rounded-full ${isMobileMenuOpen ? 'opacity-0 bg-[#111111]' : 'opacity-100 bg-[#111111]'}`} />
+              <span className={`block w-[24px] h-[2px] transition-all duration-300 rounded-full ${isMobileMenuOpen ? '-rotate-45 -translate-y-[7px] bg-[#111111]' : 'bg-[#111111]'}`} />
             </div>
           </button>
 
@@ -366,143 +469,151 @@ export default function App() {
 
         </main>
       ) : activeView === "team" ? (
-        /* Team Members Directory View */
-        <main className="flex-grow flex flex-col w-full z-20 overflow-hidden relative max-w-[1240px] mx-auto px-4 md:px-8 pt-4 pb-6">
+        /* Team Members Directory View: Interactive 3D Character Stage */
+        <main className="flex-grow relative w-full h-[80vh] md:h-[84vh] overflow-hidden flex flex-col md:flex-row items-center justify-center">
           
-          {/* Header Bar within Team Section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-6 shrink-0 text-left">
+          {/* Giant Ghost Text Backdrop Layer behind characters */}
+          <div 
+            className="absolute left-1/2 -translate-x-1/2 pointer-events-none select-none text-neutral-950/[0.05] font-bold leading-none tracking-[-0.02em] whitespace-nowrap text-center opacity-100 uppercase transition-all duration-[650ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
+            style={{
+              top: '18%',
+              fontFamily: '"Anton", sans-serif',
+              fontSize: 'clamp(90px, 28vw, 380px)',
+              zIndex: 2,
+            }}
+          >
+            {teamMembers[activeIndex].name}
+          </div>
+
+          {/* Active Centered Character Details Glass HUD Card */}
+          <div 
+            key={teamMembers[activeIndex].id}
+            style={{ zIndex: 30 }}
+            className="absolute bottom-6 left-6 right-6 md:right-auto md:left-12 flex flex-col justify-between text-left w-[calc(100%-48px)] md:w-[400px] h-[280px] md:h-[290px] bg-neutral-900/80 backdrop-blur-xl border border-neutral-900/10 rounded-3xl p-4 md:p-5 text-white shadow-2xl animate-fade-in duration-500 scale-[0.98] hover:scale-100 transition-transform duration-300 pointer-events-auto"
+          >
+            {/* Top info set */}
             <div>
-              <h2 className="text-[24px] md:text-[28px] font-bold tracking-tight text-[#111111]">
-                Say Hello To Our Team
-              </h2>
+              {/* Member Identity display */}
+              <h3 className="text-[26px] md:text-[32px] font-black tracking-tight leading-none uppercase text-white drop-shadow-md">
+                {teamMembers[activeIndex].name}
+              </h3>
+              <p className="text-[12px] md:text-[13px] font-bold text-[#FAB114]/90 mt-1 leading-tight tracking-wide drop-shadow">
+                {teamMembers[activeIndex].role}
+              </p>
+
+              {/* Divider line style */}
+              <div className="w-full h-px bg-white/10 my-2.5" />
+
+              {/* Core description details */}
+              <p className="text-[11.5px] md:text-[12.5px] text-white/85 font-normal leading-[1.5]">
+                {teamMembers[activeIndex].description}
+              </p>
+
+              {/* Quote block style */}
+              <p className="text-[11px] italic text-neutral-300 font-light mt-2 border-l-2 border-[#FAB114] pl-2 leading-relaxed">
+                "{teamMembers[activeIndex].quote}"
+              </p>
+            </div>
+
+            {/* Bottom info set */}
+            <div>
+              {/* Modern skill pills list */}
+              <div className="flex flex-wrap gap-1 mt-2.5">
+                {teamMembers[activeIndex].skills?.map((skill) => (
+                  <span 
+                    key={skill} 
+                    className="text-[9px] font-semibold bg-white/10 hover:bg-[#FAB114]/15 hover:text-[#FAB114] text-white px-2 py-0.5 rounded-full border border-white/5 transition-colors shadow-inner"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+
+              {/* Student coordinate contact marker */}
+              <div className="flex items-center gap-1.5 pt-2.5 mt-2.5 border-t border-white/10 text-[10px] font-mono text-neutral-400 select-all">
+                <span className="material-symbols-rounded text-[#FAB114] text-[14px]">alternate_email</span>
+                <span className="truncate">{teamMembers[activeIndex].id}@student.uitm.edu.my</span>
+              </div>
             </div>
           </div>
 
-          {/* Cards dynamic horizontal accordion Layout / vertical on small displays for responsiveness */}
-          <div className="flex-1 overflow-y-auto md:overflow-hidden pr-1 md:pr-2 flex flex-col md:flex-row gap-4 h-full md:h-[450px] lg:h-[500px] w-full py-1">
-            {teamMembers.map((member) => {
-              const isActive = activeId === member.id;
+          {/* 3D Character Stage Layer */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none select-none overflow-hidden z-10">
+            {teamMembers.map((member, idx) => {
+              const style = getStyleForIndex(idx);
+              const isCenter = idx === centerIndex;
+              const isLeft = idx === leftIndex;
+              const isRight = idx === rightIndex;
               
               return (
-                <div
+                <div 
                   key={member.id}
-                  onMouseEnter={() => setActiveId(member.id)}
-                  onClick={() => {
-                    setActiveId(member.id);
-                    showToast(`Active Profile: ${member.name}`);
+                  style={{
+                    ...style,
+                    pointerEvents: 'auto', // permit clicking on characters directly to navigate
                   }}
-                  className={`group relative rounded-[28px] md:rounded-[32px] overflow-hidden transition-all duration-[700ms] ease-[cubic-bezier(0.25,0.8,0.25,1)] cursor-pointer shadow-[0_12px_32px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.18)] ${
-                    isActive 
-                      ? "flex-[3.5] sm:flex-[4.5] md:flex-[5] h-[340px] md:h-full opacity-100 ring-2 ring-white/10" 
-                      : "flex-[1] h-[72px] md:h-full opacity-65 hover:opacity-100"
+                  onClick={() => {
+                    if (isLeft) navigate('prev');
+                    if (isRight) navigate('next');
+                  }}
+                  className={`absolute aspect-[0.6/1] origin-bottom select-none transition-all duration-[650ms] ${
+                    isCenter ? 'cursor-default' : 'cursor-pointer'
                   }`}
                 >
-                  {/* Atmospheric scenic background image representation */}
                   <img 
                     src={member.imageUrl} 
                     referrerPolicy="no-referrer"
-                    alt={member.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                    alt={member.name}
+                    style={{
+                      objectFit: 'contain',
+                      objectPosition: 'bottom center',
+                    }}
+                    className="w-full h-full pointer-events-none select-none drop-shadow-[0_25px_40px_rgba(0,0,0,0.65)]"
                   />
-
-                  {/* Dark Vignette Overlaying background image to increase technical readability */}
-                  <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/15 transition-opacity duration-500 z-10 ${
-                    isActive ? "opacity-100" : "opacity-85"
-                  }`} />
-
-                  {/* Shifting Glass Overlay element representing active state shimmer */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/[0.03] to-white/[0.12] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-15" />
-
-                  {/* Expanded detail elements at top (category & role detailed items) */}
-                  <div className={`absolute top-5 left-5 right-5 z-20 text-left transition-all duration-500 leading-none ${
-                    isActive ? "opacity-100 translate-y-0 scale-100 delay-150" : "opacity-0 -translate-y-4 scale-95 pointer-events-none"
-                  }`}>
-                    {/* Category Label badge */}
-                    <span className="inline-block text-[8px] font-black tracking-widest text-[#FAB114] uppercase border border-[#FAB114]/40 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full mb-3">
-                      {member.category}
-                    </span>
-
-                    {/* Member comprehensive detailed text and skills */}
-                    <div className="mt-1 max-w-[280px]">
-                      <p className="text-[11px] md:text-[12px] text-white/90 font-medium leading-[1.65] drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]">
-                        {member.description}
-                      </p>
-                      
-                      {/* Detailed quote block */}
-                      <p className="text-[10px] md:text-[11px] italic text-neutral-300 font-light mt-2 border-l border-white/20 pl-2 leading-relaxed">
-                        "{member.quote}"
-                      </p>
-
-                      {/* Expertise skills tags list */}
-                      <div className="flex flex-wrap gap-1 mt-3.5">
-                        {member.skills?.map((skill) => (
-                          <span 
-                            key={skill} 
-                            className="text-[8.5px] font-bold bg-white/10 hover:bg-[#FAB114]/20 hover:text-[#FAB114] text-white/90 px-2 py-0.5 rounded-full border border-white/5 transition-all duration-200"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Student official email coordinate line */}
-                      <div className="flex items-center gap-1.5 pt-3 mt-3.5 border-t border-white/15">
-                        <span className="material-symbols-rounded text-[#FAB114] text-[13px]">alternate_email</span>
-                        <span className="text-[9px] text-neutral-300 font-mono tracking-tight select-all truncate">
-                          {member.id}@student.uitm.edu.my
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* BOTTOM OVERLAY DESIGN MAPPED TO EXACT PICTURE MATCHES */}
-                  {isActive ? (
-                    /* ACTIVE DESIGN: Left bottom circle circular button next to title + subtitle */
-                    <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between z-20 animate-fade-in duration-500">
-                      <div className="flex items-center gap-3">
-                        {/* circular button badge with black fill or icon shadow like the picture */}
-                        <div className="w-11 h-11 md:w-12 md:h-12 rounded-full bg-white flex items-center justify-center text-neutral-950 shadow-[0_4px_15px_rgba(0,0,0,0.25)] shrink-0 transition-transform duration-300 group-hover:scale-105">
-                          <span className="material-symbols-rounded text-[20px] font-bold">
-                            {member.icon}
-                          </span>
-                        </div>
-
-                        {/* Text information */}
-                        <div className="flex flex-col text-left">
-                          <h3 className="text-[18px] md:text-[20px] font-black tracking-wide text-white leading-none uppercase drop-shadow-md">
-                            {member.name}
-                          </h3>
-                          <span className="text-[8.5px] md:text-[9px] font-bold uppercase tracking-widest text-[#FAB114] mt-1 pr-1 leading-none drop-shadow-sm">
-                            {member.role}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* NHOKAI static code or branding at bottom-right */}
-                      <span className="hidden lg:inline-block text-[8px] font-mono tracking-widest text-white/40 uppercase">
-                        NHOKAI STACK
-                      </span>
-                    </div>
-                  ) : (
-                    /* INACTIVE DESIGN: Thin column, centered white action badge at bottom matching image */
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 transition-all duration-300 group-hover:scale-110 flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center text-neutral-900 shadow-md transition-all duration-300">
-                        <span className="material-symbols-rounded text-[18px] text-neutral-800">
-                          {member.icon}
-                        </span>
-                      </div>
-                      {/* Vertical indicator text for slim cards on tablet/desktop */}
-                      <span className="hidden md:inline-block uppercase tracking-wider text-[8px] font-bold text-white/50 group-hover:text-white/80 mt-2 transition-colors">
-                        {member.verticalText}
-                      </span>
-                    </div>
+                  
+                  {/* Subtle lighting vignette overlay per image to make them render depth beautifully */}
+                  {!isCenter && (
+                    <div className="absolute inset-0 bg-black/20 rounded-b-2xl mix-blend-multiply pointer-events-none transition-opacity duration-[650ms]" />
                   )}
                 </div>
               );
             })}
           </div>
 
+          {/* Futuristic Cybernetic Arrow Nav Controls */}
+          <div className="absolute right-6 md:right-12 bottom-6 z-30 flex items-center gap-4">
+            {/* Prev button */}
+            <button 
+              onClick={() => navigate('prev')}
+              className="w-12 h-12 rounded-full border border-white/10 bg-black/45 hover:bg-[#FAB114]/20 hover:border-[#FAB114] backdrop-blur-xl flex items-center justify-center text-white transition-all cursor-pointer group shadow-2xl active:scale-95"
+              title="Rotate Previous"
+            >
+              <svg className="w-5 h-5 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            
+            {/* Custom high-end progress ticker indicator */}
+            <div className="flex flex-col items-center">
+              <span className="text-[12px] font-black font-mono text-[#FAB114] tracking-widest leading-none">
+                0{activeIndex + 1}
+              </span>
+              <span className="text-[8px] font-mono text-neutral-900/50 tracking-widest uppercase mt-0.5">
+                OF 0{teamMembers.length}
+              </span>
+            </div>
 
+            {/* Next button */}
+            <button 
+              onClick={() => navigate('next')}
+              className="w-12 h-12 rounded-full border border-white/10 bg-black/45 hover:bg-[#FAB114]/20 hover:border-[#FAB114] backdrop-blur-xl flex items-center justify-center text-white transition-all cursor-pointer group shadow-2xl active:scale-95"
+              title="Rotate Next"
+            >
+              <svg className="w-5 h-5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
 
         </main>
       ) : (
