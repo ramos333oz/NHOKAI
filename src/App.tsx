@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import SolutionsView from "./components/SolutionsView";
 import nhokaiLogo from "../Logo/nhokai_4-removebg-preview.png";
 import omarbImg from "../team-pictures/omarb.png";
@@ -416,42 +417,41 @@ export default function App() {
         <span>{toastMessage}</span>
       </div>
 
-      {/* Header / Navbar (Sticky transparent blurred display) */}
+      {/* Header / Navbar (Sticky, floating, unified pill design) */}
       <header 
         style={{
-          backgroundColor: activeView === "team" ? `${teamMembers[activeIndex].bgColor}88` : "rgba(245, 245, 245, 0.45)",
-          transition: "background-color 650ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms ease-in-out, opacity 350ms ease-in-out"
+          transition: "transform 350ms ease-in-out, opacity 350ms ease-in-out"
         }}
-        className={`fixed top-0 left-0 right-0 z-40 w-full backdrop-blur-md border-b border-neutral-900/[0.04] transition-all duration-300 ${
-          activeView === "404" ? "md:-translate-y-full md:opacity-0 md:pointer-events-none translate-y-0 opacity-100" : "translate-y-0 opacity-100"
-        }`}
+        className="fixed top-0 left-0 right-0 z-40 w-full flex justify-center pointer-events-none"
       >
-        <div className="max-w-[1100px] mx-auto px-5 md:px-10 py-4 flex items-center justify-between">
+        <div 
+          className="w-full md:w-[85%] lg:w-[75%] max-w-[820px] bg-[#F5F5F5]/90 backdrop-blur-md h-[56px] border-b md:border-l md:border-r border-neutral-300 rounded-b-none md:rounded-b-[24px] px-5 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex items-center justify-between pointer-events-auto transition-all duration-300"
+        >
           
           {/* Left: Logo */}
           <a 
             href="#" 
             onClick={(e) => handleLinkClick(e, "Home")} 
-            className="flex items-center gap-[10px] group transition-transform duration-200 hover:scale-[1.02]"
+            className="flex items-center gap-[8px] group transition-all duration-200 hover:scale-[1.01]"
             id="navbar-logo"
           >
             <img 
               src={nhokaiLogo} 
               alt="NHOKAI logo" 
-              className="h-[36px] w-auto select-none pointer-events-none transition-all duration-300 object-contain"
+              className="h-[28px] w-auto select-none pointer-events-none object-contain"
             />
-            <span className="text-[20px] font-bold tracking-[-0.3px] transition-colors duration-300 text-[#111111]">
+            <span className="text-[15px] font-extrabold tracking-tight text-[#111111]">
               NHOKAI
             </span>
           </a>
 
           {/* Center: Desktop Nav links */}
-          <nav className="hidden md:flex items-center gap-[36px]" id="desktop-nav">
+          <nav className="hidden md:flex items-center gap-[28px]" id="desktop-nav">
             <a 
               href="#" 
               onClick={(e) => handleLinkClick(e, "Home")} 
-              className={`text-[14px] transition-all duration-200 ${
-                activeView === "404" ? "font-semibold text-[#111111]" : "font-light text-[#1a1a1a]/65 hover:text-[#1a1a1a]"
+              className={`text-[12.5px] transition-all duration-200 ${
+                activeView === "404" ? "font-semibold text-[#111111]" : "font-normal text-[#1a1a1a]/65 hover:text-[#111111]"
               }`}
             >
               Home
@@ -459,8 +459,8 @@ export default function App() {
             <a 
               href="#" 
               onClick={(e) => handleLinkClick(e, "Our Team")} 
-              className={`text-[14px] transition-all duration-200 ${
-                activeView === "team" ? "font-semibold text-[#111111]" : "font-light text-[#1a1a1a]/65 hover:text-[#1a1a1a]"
+              className={`text-[12.5px] transition-all duration-200 ${
+                activeView === "team" ? "font-semibold text-[#111111]" : "font-normal text-[#1a1a1a]/65 hover:text-[#111111]"
               }`}
             >
               Our Team
@@ -468,11 +468,11 @@ export default function App() {
             <a 
               href="#" 
               onClick={(e) => handleLinkClick(e, "Solutions")} 
-              className={`text-[14px] transition-all duration-200 flex items-center gap-1 ${
-                activeView === "solutions" ? "font-semibold text-[#111111] hover:text-[#111111]" : "font-light text-[#1a1a1a]/65 hover:text-[#1a1a1a]"
+              className={`text-[12.5px] transition-all duration-200 flex items-center gap-1 ${
+                activeView === "solutions" ? "font-semibold text-[#111111]" : "font-normal text-[#1a1a1a]/65 hover:text-[#111111]"
               }`}
             >
-              Solutions <span className="text-[9px] transition-colors duration-300 text-[#1a1a1a]/50">▾</span>
+              Solutions
             </a>
           </nav>
 
@@ -481,18 +481,12 @@ export default function App() {
             <button 
               id="cta-connect-desktop"
               style={{ 
-                backgroundImage: 'linear-gradient(180deg, #2c2c2c 0%, #111111 100%)', 
-                boxShadow: '0 4px 15px rgba(0,0,0,0.15)' 
+                boxShadow: '0 4px 12px rgba(0,0,0,0.05)' 
               }}
-              onClick={(e) => showToast("Integrating contact workflows...")}
-              className="flex items-center gap-[9px] rounded-[40px] pt-[5px] pb-[5px] pr-[16px] pl-[5px] transition-all duration-200 cursor-pointer text-[13px] font-medium hover:-translate-y-[1px] hover:shadow-[0_6px_20px_rgba(0,0,0,0.25)] hover:brightness-110 active:scale-95 text-white"
+              onClick={(e) => showToast("Connecting: contact workflow initiated...")}
+              className="bg-neutral-900 border border-neutral-800 hover:bg-black text-white text-[11.5px] font-medium px-4 py-1.5 rounded-full shadow-sm transition-all cursor-pointer hover:-translate-y-[1px] active:scale-95"
             >
-              <div className="w-[24px] h-[24px] rounded-full flex items-center justify-center shadow-sm shrink-0 bg-white text-black">
-                <svg className="w-[12px] h-[12px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </div>
-              <span className="tracking-tight pr-[2px]">Let's Connect</span>
+              Let's Connect
             </button>
           </div>
 
@@ -581,63 +575,6 @@ export default function App() {
               id="hero-section" 
               className="relative w-full h-[calc(100vh-24px)] sm:h-[calc(100vh-40px)] md:h-[calc(100vh-56px)] flex flex-col justify-between overflow-hidden"
             >
-
-              {/* Centered Pill-shaped connected Navbar that cuts into the top edge (desktop browser view only) */}
-              <div 
-                style={{ top: "-1px" }}
-                className="absolute left-1/2 -translate-x-1/2 z-35 hidden md:flex items-center justify-between w-[92%] sm:w-[85%] md:w-[75%] max-w-[820px] bg-[#F5F5F5] h-[56px] border-b border-l border-r border-neutral-300 rounded-b-[24px] px-5 shadow-[0_4px_12px_rgba(0,0,0,0.02)] select-none pointer-events-auto"
-              >
-                {/* Navbar Logo/Brand */}
-                <a 
-                  href="#" 
-                  onClick={(e) => handleLinkClick(e, "Home")} 
-                  className="flex items-center gap-[8px] group transition-all duration-200 hover:scale-[1.01]"
-                >
-                  <img 
-                    src={nhokaiLogo} 
-                    alt="NHOKAI logo" 
-                    className="h-[28px] w-auto select-none pointer-events-none object-contain"
-                  />
-                  <span className="text-[15px] font-extrabold tracking-tight text-[#111111]">
-                    NHOKAI
-                  </span>
-                </a>
-
-                {/* Navbar Middle Links */}
-                <nav className="flex items-center gap-[28px]">
-                  <a 
-                    href="#" 
-                    onClick={(e) => handleLinkClick(e, "Home")} 
-                    className={`text-[12.5px] transition-all duration-200 font-semibold text-[#111111]`}
-                  >
-                    Home
-                  </a>
-                  <a 
-                    href="#" 
-                    onClick={(e) => handleLinkClick(e, "Our Team")} 
-                    className={`text-[12.5px] transition-all duration-200 font-normal text-[#1a1a1a]/65 hover:text-[#111111]`}
-                  >
-                    Our Team
-                  </a>
-                  <a 
-                    href="#" 
-                    onClick={(e) => handleLinkClick(e, "Solutions")} 
-                    className={`text-[12.5px] transition-all duration-200 font-normal text-[#1a1a1a]/65 hover:text-[#111111]`}
-                  >
-                    Solutions
-                  </a>
-                </nav>
-
-                {/* Navbar Right Connect CTA */}
-                <div>
-                  <button 
-                    onClick={(e) => showToast("Connecting: contact workflow initiated...")}
-                    className="bg-neutral-900 border border-neutral-800 hover:bg-black text-white text-[11.5px] font-medium px-4 py-1.5 rounded-full shadow-sm transition-all cursor-pointer active:scale-95"
-                  >
-                    Let's Connect
-                  </button>
-                </div>
-              </div>
             
             {/* Background Video cover (clipping matches parent curves) */}
             <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
@@ -757,106 +694,132 @@ export default function App() {
               }}
               className="relative z-10 w-full max-w-[1100px] h-[550px] md:h-[630px] rounded-[32px] md:rounded-[48px] border border-neutral-300 md:border-neutral-300/80 shadow-[0_36px_72px_-18px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.15),_inset_0_1px_3px_rgba(255,255,255,1)] overflow-hidden flex flex-col md:flex-row items-center justify-between"
             >
-            {/* Giant Ghost Text Backdrop Layer behind characters */}
-            <div 
-              className="absolute left-1/2 md:left-[calc((100%-410px)/2+410px)] -translate-x-1/2 pointer-events-none select-none text-neutral-950/[0.04] font-bold leading-none tracking-[-0.02em] whitespace-nowrap text-center opacity-100 uppercase transition-all duration-[650ms] ease-[cubic-bezier(0.4,0,0.2,1)]"
-              style={{
-                top: '25%',
-                fontFamily: '"Anton", sans-serif',
-                fontSize: 'clamp(70px, 18vw, 210px)',
-                zIndex: 2,
-              }}
-            >
-              {teamMembers[activeIndex].name}
-            </div>
+             {/* Giant Ghost Text Backdrop Layer behind characters with high-fidelity smooth transition */}
+             <div 
+               className="absolute left-1/2 md:left-[calc((100%-410px)/2+410px)] -translate-x-1/2 pointer-events-none select-none w-full flex items-center justify-center animate-none"
+               style={{
+                 top: '25%',
+                 zIndex: 2,
+               }}
+             >
+               <AnimatePresence mode="popLayout" initial={false}>
+                 <motion.div
+                   key={teamMembers[activeIndex].name}
+                   initial={{ opacity: 0, y: 40, filter: "blur(12px)", scale: 0.96 }}
+                   animate={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+                   exit={{ opacity: 0, y: -40, filter: "blur(12px)", scale: 0.96 }}
+                   transition={{ 
+                     duration: 0.75, 
+                     ease: [0.16, 1, 0.3, 1] 
+                   }}
+                   className="pointer-events-none select-none text-neutral-950/[0.04] font-bold leading-none tracking-[-0.02em] whitespace-nowrap text-center uppercase"
+                   style={{
+                     fontFamily: '"Anton", sans-serif',
+                     fontSize: 'clamp(70px, 18vw, 210px)',
+                   }}
+                 >
+                   {teamMembers[activeIndex].name}
+                 </motion.div>
+               </AnimatePresence>
+             </div>
 
              {/* Active Centered Character Details Glass HUD Card */}
-             <div 
-               key={teamMembers[activeIndex].id}
-               style={{ zIndex: 30 }}
-               className="absolute bottom-[72px] left-6 right-6 h-[220px] md:bottom-8 md:top-8 md:left-8 md:right-auto md:w-[360px] md:h-[calc(100%-64px)] flex flex-col justify-between text-left bg-white/95 backdrop-blur-xl border border-neutral-200/80 rounded-3xl p-5 md:p-6 text-neutral-900 shadow-2xl animate-fade-in duration-500 scale-[0.98] hover:scale-100 transition-all duration-300 pointer-events-auto overflow-y-auto scrollbar-none"
-             >
-               {/* Top info set */}
-               <div className="flex flex-col justify-start">
-                 {/* Member Identity display */}
-                 <h3 className="text-[20px] md:text-[24px] font-black tracking-tight leading-none uppercase text-neutral-900 drop-shadow-sm">
-                    {teamMembers[activeIndex].name}
-                 </h3>
-                 <p className="text-[11px] md:text-[12px] font-bold text-[#E09000] mt-1 leading-tight tracking-wide bg-transparent">
-                   {teamMembers[activeIndex].role}
-                 </p>
+             <AnimatePresence mode="popLayout" initial={false}>
+               <motion.div 
+                 key={teamMembers[activeIndex].id}
+                 initial={{ opacity: 0, x: -40, filter: "blur(12px)", scale: 0.96 }}
+                 animate={{ opacity: 1, x: 0, filter: "blur(0px)", scale: 0.98 }}
+                 exit={{ opacity: 0, x: 40, filter: "blur(12px)", scale: 0.96 }}
+                 whileHover={{ scale: 1.0 }}
+                 transition={{ 
+                   duration: 0.75, 
+                   ease: [0.16, 1, 0.3, 1] 
+                 }}
+                 style={{ zIndex: 30 }}
+                 className="absolute bottom-[72px] left-6 right-6 h-[220px] md:bottom-8 md:top-8 md:left-8 md:right-auto md:w-[360px] md:h-[calc(100%-64px)] flex flex-col justify-between text-left bg-white/95 backdrop-blur-xl border border-neutral-200/80 rounded-3xl p-5 md:p-6 text-neutral-900 shadow-2xl pointer-events-auto overflow-y-auto scrollbar-none transform-gpu"
+               >
+                 {/* Top info set */}
+                 <div className="flex flex-col justify-start">
+                   {/* Member Identity display */}
+                   <h3 className="text-[20px] md:text-[24px] font-black tracking-tight leading-none uppercase text-neutral-900 drop-shadow-sm">
+                      {teamMembers[activeIndex].name}
+                   </h3>
+                   <p className="text-[11px] md:text-[12px] font-bold text-[#E09000] mt-1 leading-tight tracking-wide bg-transparent">
+                     {teamMembers[activeIndex].role}
+                   </p>
 
-                 {/* Divider line style */}
-                 <div className="w-full h-px bg-neutral-200/80 my-2" />
+                   {/* Divider line style */}
+                   <div className="w-full h-px bg-neutral-200/80 my-2" />
 
-                 {/* Core description details */}
-                 <p className="text-[10.5px] md:text-[11.5px] text-neutral-600 font-normal leading-[1.4] mb-3">
-                   {teamMembers[activeIndex].description}
-                 </p>
+                   {/* Core description details */}
+                   <p className="text-[10.5px] md:text-[11.5px] text-neutral-600 font-normal leading-[1.4] mb-3">
+                     {teamMembers[activeIndex].description}
+                   </p>
 
-                 {/* Academic Credentials Section */}
-                 {teamMembers[activeIndex].education && (
-                   <div className="flex items-center gap-3 bg-neutral-50/80 p-2.5 rounded-xl border border-neutral-200/50 mb-2 hover:bg-neutral-100/80 transition-colors">
-                     {/* High-Fidelity University Logo Placeholder */}
-                     <div className="w-10 h-10 rounded-lg bg-neutral-100 border border-neutral-200 flex flex-col items-center justify-center shrink-0 shadow-inner overflow-hidden relative select-none">
-                       <div className="absolute inset-0 bg-gradient-to-tr from-[#FAB114]/10 to-transparent opacity-50" />
-                       <span className="material-symbols-rounded text-[#E09000] text-[18px] relative z-10 leading-none">school</span>
-                       <span className="text-[6.5px] font-mono font-bold text-neutral-500 uppercase tracking-tighter scale-[0.85] mt-0.5 relative z-10 leading-none">UiTM</span>
+                   {/* Academic Credentials Section */}
+                   {teamMembers[activeIndex].education && (
+                     <div className="flex items-center gap-3 bg-neutral-50/80 p-2.5 rounded-xl border border-neutral-200/50 mb-2 hover:bg-neutral-100/80 transition-colors">
+                       {/* High-Fidelity University Logo Placeholder */}
+                       <div className="w-10 h-10 rounded-lg bg-neutral-100 border border-neutral-200 flex flex-col items-center justify-center shrink-0 shadow-inner overflow-hidden relative select-none">
+                         <div className="absolute inset-0 bg-gradient-to-tr from-[#FAB114]/10 to-transparent opacity-50" />
+                         <span className="material-symbols-rounded text-[#E09000] text-[18px] relative z-10 leading-none">school</span>
+                         <span className="text-[6.5px] font-mono font-bold text-neutral-500 uppercase tracking-tighter scale-[0.85] mt-0.5 relative z-10 leading-none">UiTM</span>
+                       </div>
+                       <div className="min-w-0 flex-1">
+                         <span className="block text-[8px] font-semibold text-neutral-400 uppercase tracking-wider leading-none mb-0.5">Education</span>
+                         <span className="font-semibold text-neutral-800 text-[10px] md:text-[10.5px] leading-tight block truncate md:whitespace-normal">
+                           {teamMembers[activeIndex].education}
+                         </span>
+                       </div>
                      </div>
-                     <div className="min-w-0 flex-1">
-                       <span className="block text-[8px] font-semibold text-neutral-400 uppercase tracking-wider leading-none mb-0.5">Education</span>
-                       <span className="font-semibold text-neutral-800 text-[10px] md:text-[10.5px] leading-tight block truncate md:whitespace-normal">
-                         {teamMembers[activeIndex].education}
-                       </span>
-                     </div>
-                   </div>
-                 )}
+                   )}
 
-                 {/* Current Job section */}
-                 {teamMembers[activeIndex].currentJobs && (
-                   <div className="flex items-center gap-3 bg-neutral-50/80 p-2.5 rounded-xl border border-neutral-200/50 mb-3 hover:bg-neutral-100/80 transition-colors">
-                     {/* High-Fidelity Company Logo Placeholder */}
-                     <div className="w-10 h-10 rounded-lg bg-neutral-100 border border-neutral-200 flex flex-col items-center justify-center shrink-0 shadow-inner overflow-hidden relative select-none">
-                       <div className="absolute inset-0 bg-gradient-to-tr from-[#FAB114]/10 to-transparent opacity-50" />
-                       <span className="material-symbols-rounded text-[#E09000] text-[18px] relative z-10 leading-none">domain</span>
-                       <span className="text-[6.5px] font-mono font-bold text-neutral-500 uppercase tracking-tighter scale-[0.85] mt-0.5 relative z-10 leading-none">NHOKAI</span>
+                   {/* Current Job section */}
+                   {teamMembers[activeIndex].currentJobs && (
+                     <div className="flex items-center gap-3 bg-neutral-50/80 p-2.5 rounded-xl border border-neutral-200/50 mb-3 hover:bg-neutral-100/80 transition-colors">
+                       {/* High-Fidelity Company Logo Placeholder */}
+                       <div className="w-10 h-10 rounded-lg bg-neutral-100 border border-neutral-200 flex flex-col items-center justify-center shrink-0 shadow-inner overflow-hidden relative select-none">
+                         <div className="absolute inset-0 bg-gradient-to-tr from-[#FAB114]/10 to-transparent opacity-50" />
+                         <span className="material-symbols-rounded text-[#E09000] text-[18px] relative z-10 leading-none">domain</span>
+                         <span className="text-[6.5px] font-mono font-bold text-neutral-500 uppercase tracking-tighter scale-[0.85] mt-0.5 relative z-10 leading-none">NHOKAI</span>
+                       </div>
+                       <div className="min-w-0 flex-1">
+                         <span className="block text-[8px] font-semibold text-neutral-400 uppercase tracking-wider leading-none mb-0.5">Current Position</span>
+                         <span className="font-semibold text-neutral-800 text-[10px] md:text-[10.5px] leading-tight block truncate md:whitespace-normal">
+                           {teamMembers[activeIndex].currentJobs}
+                         </span>
+                       </div>
                      </div>
-                     <div className="min-w-0 flex-1">
-                       <span className="block text-[8px] font-semibold text-neutral-400 uppercase tracking-wider leading-none mb-0.5">Current Position</span>
-                       <span className="font-semibold text-neutral-800 text-[10px] md:text-[10.5px] leading-tight block truncate md:whitespace-normal">
-                         {teamMembers[activeIndex].currentJobs}
-                       </span>
-                     </div>
-                   </div>
-                 )}
+                   )}
 
-                 {/* Quote block style */}
-                 <p className="text-[10px] md:text-[11px] italic text-neutral-600 font-light border-l-2 border-[#FAB114] pl-2 leading-relaxed">
-                   "{teamMembers[activeIndex].quote}"
-                 </p>
-               </div>
-
-               {/* Bottom info set */}
-               <div className="mt-4">
-                 {/* Modern skill pills list */}
-                 <div className="flex flex-wrap gap-1">
-                   {teamMembers[activeIndex].skills?.map((skill) => (
-                     <span 
-                       key={skill} 
-                       className="text-[8px] font-semibold bg-neutral-100 hover:bg-[#FAB114]/15 hover:text-[#B37800] text-neutral-700 px-2 py-0.5 rounded-full border border-neutral-200/60 transition-colors shadow-inner"
-                     >
-                       {skill}
-                     </span>
-                   ))}
+                   {/* Quote block style */}
+                   <p className="text-[10px] md:text-[11px] italic text-neutral-600 font-light border-l-2 border-[#FAB114] pl-2 leading-relaxed">
+                     "{teamMembers[activeIndex].quote}"
+                   </p>
                  </div>
 
-                 {/* Student coordinate contact marker */}
-                 <div className="flex items-center gap-1.5 pt-2 mt-2 border-t border-neutral-200/60 text-[9px] font-mono text-neutral-400 select-all">
-                   <span className="material-symbols-rounded text-[#E09000] text-[12px]">alternate_email</span>
-                   <span className="truncate">{teamMembers[activeIndex].id}@student.uitm.edu.my</span>
+                 {/* Bottom info set */}
+                 <div className="mt-4">
+                   {/* Modern skill pills list */}
+                   <div className="flex flex-wrap gap-1">
+                     {teamMembers[activeIndex].skills?.map((skill) => (
+                       <span 
+                         key={skill} 
+                         className="text-[8px] font-semibold bg-neutral-100 hover:bg-[#FAB114]/15 hover:text-[#B37800] text-neutral-700 px-2 py-0.5 rounded-full border border-neutral-200/60 transition-colors shadow-inner"
+                       >
+                         {skill}
+                       </span>
+                     ))}
+                   </div>
+
+                   {/* Student coordinate contact marker */}
+                   <div className="flex items-center gap-1.5 pt-2 mt-2 border-t border-neutral-200/60 text-[9px] font-mono text-neutral-400 select-all">
+                     <span className="material-symbols-rounded text-[#E09000] text-[12px]">alternate_email</span>
+                     <span className="truncate">{teamMembers[activeIndex].id}@student.uitm.edu.my</span>
+                   </div>
                  </div>
-               </div>
-             </div>
+               </motion.div>
+             </AnimatePresence>
 
             {/* 3D Character Stage Layer */}
             <div className="absolute inset-0 md:left-[410px] md:right-0 pointer-events-none select-none overflow-hidden z-10">
