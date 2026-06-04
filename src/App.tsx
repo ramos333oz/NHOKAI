@@ -334,13 +334,16 @@ export default function App() {
   const centerIndex = activeIndex;
   const leftIndex = (activeIndex + teamMembers.length - 1) % teamMembers.length;
   const rightIndex = (activeIndex + 1) % teamMembers.length;
-  const backIndex = (activeIndex + 2) % teamMembers.length;
+  const farLeftIndex = (activeIndex + teamMembers.length - 2) % teamMembers.length;
+  const farRightIndex = (activeIndex + 2) % teamMembers.length;
 
   const getStyleForIndex = (index: number) => {
-    let role: 'center' | 'left' | 'right' | 'back' = 'back';
+    let role: 'center' | 'left' | 'right' | 'farLeft' | 'farRight' | 'hidden' = 'hidden';
     if (index === centerIndex) role = 'center';
     else if (index === leftIndex) role = 'left';
     else if (index === rightIndex) role = 'right';
+    else if (index === farLeftIndex) role = 'farLeft';
+    else if (index === farRightIndex) role = 'farRight';
 
     const duration = '650ms';
     const easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -360,36 +363,60 @@ export default function App() {
         };
       case 'left':
         return {
-          left: isMobile ? '20%' : '26%',
+          left: isMobile ? '22%' : '28%',
           height: isMobile ? '35%' : '48%',
           bottom: isMobile ? '18%' : '0px',
-          transform: `translateX(-50%) scale(1)`,
-          filter: 'blur(1.5px) brightness(0.7)',
+          transform: `translateX(-50%) scale(1.0)`,
+          filter: 'blur(1px) brightness(0.75)',
           opacity: isMobile ? 0 : 0.85,
-          zIndex: 10,
+          zIndex: 15,
           transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
           willChange: 'transform, filter, opacity',
         };
       case 'right':
         return {
-          left: isMobile ? '80%' : '74%',
+          left: isMobile ? '78%' : '72%',
           height: isMobile ? '35%' : '48%',
           bottom: isMobile ? '18%' : '0px',
-          transform: `translateX(-50%) scale(1)`,
-          filter: 'blur(1.5px) brightness(0.7)',
+          transform: `translateX(-50%) scale(1.0)`,
+          filter: 'blur(1px) brightness(0.75)',
           opacity: isMobile ? 0 : 0.85,
+          zIndex: 15,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+      case 'farLeft':
+        return {
+          left: isMobile ? '5%' : '14%',
+          height: isMobile ? '24%' : '34%',
+          bottom: isMobile ? '18%' : '0px',
+          transform: `translateX(-50%) scale(0.78)`,
+          filter: 'blur(3px) brightness(0.45)',
+          opacity: isMobile ? 0 : 0.55,
           zIndex: 10,
           transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
           willChange: 'transform, filter, opacity',
         };
-      case 'back':
+      case 'farRight':
+        return {
+          left: isMobile ? '95%' : '86%',
+          height: isMobile ? '24%' : '34%',
+          bottom: isMobile ? '18%' : '0px',
+          transform: `translateX(-50%) scale(0.78)`,
+          filter: 'blur(3px) brightness(0.45)',
+          opacity: isMobile ? 0 : 0.55,
+          zIndex: 10,
+          transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
+          willChange: 'transform, filter, opacity',
+        };
+      case 'hidden':
       default:
         return {
           left: '50%',
-          height: isMobile ? '25%' : '35%',
+          height: isMobile ? '20%' : '28%',
           bottom: isMobile ? '18%' : '0px',
-          transform: `translateX(-50%) scale(0.6)`,
-          filter: 'blur(8px) brightness(0.4)',
+          transform: `translateX(-50%) scale(0.55)`,
+          filter: 'blur(8px) brightness(0.3)',
           opacity: 0,
           zIndex: 5,
           transition: `transform ${duration} ${easing}, filter ${duration} ${easing}, opacity ${duration} ${easing}, left ${duration} ${easing}, height ${duration} ${easing}, bottom ${duration} ${easing}`,
@@ -828,6 +855,8 @@ export default function App() {
                 const isCenter = idx === centerIndex;
                 const isLeft = idx === leftIndex;
                 const isRight = idx === rightIndex;
+                const isFarLeft = idx === farLeftIndex;
+                const isFarRight = idx === farRightIndex;
                 
                 return (
                   <div 
@@ -838,7 +867,21 @@ export default function App() {
                     }}
                     onClick={() => {
                       if (isLeft) navigate('prev', true);
-                      if (isRight) navigate('next', true);
+                      else if (isRight) navigate('next', true);
+                      else if (isFarLeft) {
+                        if (isAnimating) return;
+                        setIsAutoSwiping(false);
+                        setIsAnimating(true);
+                        setActiveIndex(farLeftIndex);
+                        setTimeout(() => setIsAnimating(false), 650);
+                      }
+                      else if (isFarRight) {
+                        if (isAnimating) return;
+                        setIsAutoSwiping(false);
+                        setIsAnimating(true);
+                        setActiveIndex(farRightIndex);
+                        setTimeout(() => setIsAnimating(false), 650);
+                      }
                     }}
                     className={`absolute aspect-[0.6/1] origin-bottom select-none transition-all duration-[650ms] ${
                       isCenter ? 'cursor-default' : 'cursor-pointer'

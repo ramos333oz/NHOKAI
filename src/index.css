@@ -114,3 +114,19 @@ body {
   font-feature-settings: 'liga';
 }
 
+/* Scrollbar Hiding rules for simulated phone viewports and custom scrollbars */
+.custom-scrollbar::-webkit-scrollbar,
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.custom-scrollbar,
+.invisible-scrollbar {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;     /* Firefox */
+}
+
+

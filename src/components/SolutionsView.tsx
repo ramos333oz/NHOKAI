@@ -585,45 +585,34 @@ export default function SolutionsView() {
 
         {/* SECTION 6: Key Capabilities Grid */}
         <div id="key-capabilities-section" className="mt-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Layers className="w-3.5 h-3.5 text-neutral-700" />
-            <span className="text-[10px] font-bold uppercase text-neutral-500 tracking-wider">
-              Core Architecture Components
-            </span>
-          </div>
-          
-          <p className="text-[11.5px] text-neutral-400 mb-5 font-light">
-            Select an architectural block below to simulate the user experience live in the mockup stack.
-          </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {capabilities.map((cap) => (
               <div 
                 key={cap.id}
                 onClick={() => handleCapabilityClick(cap.id)}
-                className={`p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between ${
+                className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer flex flex-col justify-start group/card relative overflow-hidden ${
                   activeCapability === cap.id 
-                    ? "bg-[#800020]/[0.02] border-[#800020]/30 shadow-xs" 
-                    : "bg-white border-neutral-200/60 hover:border-neutral-300 shadow-[0_2px_8px_rgba(0,0,0,0.015)]"
+                    ? "bg-[#800020]/[0.03] border-[#800020]/40 shadow-xs ring-1 ring-[#800020]/20" 
+                    : "bg-white/80 backdrop-blur-xs border-neutral-200/70 hover:border-neutral-300 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] shadow-[0_2px_8px_rgba(0,0,0,0.015)]"
                 } ${cap.isWide ? "sm:col-span-2" : ""}`}
               >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="p-1 rounded-md bg-neutral-100/60 border border-neutral-150 shrink-0">
-                      {cap.icon}
-                    </div>
-                    <span className={`text-[8.5px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full border ${cap.badgeClasses}`}>
-                      {cap.badge}
-                    </span>
+                <div className="flex gap-3.5 items-start">
+                  <div className={`p-2 rounded-lg border shrink-0 transition-all duration-300 ${
+                    activeCapability === cap.id
+                      ? "bg-white border-[#800020]/30 text-[#800020]"
+                      : "bg-[#F5F5F5] border-neutral-200 text-neutral-700 group-hover/card:bg-neutral-100 group-hover/card:text-neutral-900"
+                  }`}>
+                    {cap.icon}
                   </div>
-                  <h3 className="text-[12.5px] font-bold text-neutral-800">{cap.title}</h3>
-                  <p className="text-[11px] text-neutral-500 leading-relaxed mt-1 font-light">
-                     {cap.description}
-                  </p>
-                </div>
-                <div className="mt-3.5 flex items-center gap-1 text-[10px] font-bold text-[#800020]">
-                  <span>{cap.actionText}</span>
-                  <ArrowRight className="w-2.5 h-2.5 transition-transform group-hover:translate-x-0.5" />
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-[13px] font-bold text-neutral-800 leading-snug tracking-tight group-hover/card:text-neutral-900 transition-colors">
+                      {cap.title}
+                    </h3>
+                    <p className="text-[11px] text-neutral-500 leading-relaxed mt-0.5 font-normal">
+                      {cap.description}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
