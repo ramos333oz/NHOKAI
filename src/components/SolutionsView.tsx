@@ -166,76 +166,27 @@ const UniCartLogo = () => (
 
 const capabilities = [
   {
-    id: "marketplace",
-    title: "Campus Marketplace",
-    description: "Browse, filter, and buy verified student listings and local service offerings.",
-    badge: "Primary",
-    badgeClasses: "bg-amber-50 text-amber-700 border-amber-100",
-    icon: <ShoppingBag className="w-3.5 h-3.5" />,
-    actionText: "Open Marketplace"
-  },
-  {
     id: "verify",
     title: "Verified Student Access",
     description: "Secure school-bounded coordination using verified university email domains.",
     badge: "Identity",
     badgeClasses: "bg-zinc-100 text-zinc-700 border-zinc-200",
     icon: <ShieldCheck className="w-3.5 h-3.5" />,
-    actionText: "Verify Enrollment"
+    actionText: "Verify Enrollment",
+    phase: "Phase 1: Trusted Onboarding",
+    stepNum: 1,
+    isStart: true
   },
   {
-    id: "booking",
-    title: "Structured Escrow Holds",
-    description: "Robust hold reservation flow guarding bank receipts, meetups, and reviews.",
-    badge: "Escrow",
-    badgeClasses: "bg-emerald-50 text-emerald-700 border-emerald-100",
-    icon: <CheckSquare className="w-3.5 h-3.5" />,
-    actionText: "Advance Holds"
-  },
-  {
-    id: "chat",
-    title: "In-App Student Chat",
-    description: "Contextual, listing-tied relative instant messaging to arrange transaction details.",
-    badge: "Real-Time",
-    badgeClasses: "bg-sky-50 text-sky-700 border-sky-100",
-    icon: <MessageSquare className="w-3.5 h-3.5" />,
-    actionText: "Test Student Chat"
-  },
-  {
-    id: "meetup",
-    title: "Campus Hotspots",
-    description: "Safe, pre-vetted campus exchange collection hubs protecting peer trade.",
-    badge: "Location",
-    badgeClasses: "bg-rose-50 text-rose-700 border-rose-100",
-    icon: <MapPin className="w-3.5 h-3.5" />,
-    actionText: "Inspect Meetups"
-  },
-  {
-    id: "reviews",
-    title: "Reputation Scoring",
-    description: "Verified historical star logs that aggregate transparent student seller feedback.",
-    badge: "Trust",
+    id: "marketplace",
+    title: "Campus Marketplace",
+    description: "Browse, filter, and buy verified student listings and local service offerings.",
+    badge: "Primary",
     badgeClasses: "bg-amber-50 text-amber-700 border-amber-100",
-    icon: <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />,
-    actionText: "Audit Ratings"
-  },
-  {
-    id: "events",
-    title: "Campus Discovery",
-    description: "Unified listings of campus workshops, student-led hackathons, and fairs.",
-    badge: "RSVP",
-    badgeClasses: "bg-purple-50 text-purple-700 border-purple-100",
-    icon: <Calendar className="w-3.5 h-3.5" />,
-    actionText: "Browse Events"
-  },
-  {
-    id: "moderation",
-    title: "Moderators Dashboard",
-    description: "Enforcement mechanics for tracking student flag alerts and banning bad listings.",
-    badge: "Standards",
-    badgeClasses: "bg-red-50 text-red-700 border-red-100",
-    icon: <Sliders className="w-3.5 h-3.5" />,
-    actionText: "Admin Roster"
+    icon: <ShoppingBag className="w-3.5 h-3.5" />,
+    actionText: "Open Marketplace",
+    phase: "Phase 2: Explore & Match",
+    stepNum: 2
   },
   {
     id: "aitag",
@@ -245,7 +196,75 @@ const capabilities = [
     badgeClasses: "bg-violet-50 text-violet-700 border-violet-150 animate-pulse",
     icon: <Tag className="w-3.5 h-3.5" />,
     actionText: "Draft Optimizer",
-    isWide: true
+    phase: "Phase 2: Explore & Match",
+    stepNum: 3
+  },
+  {
+    id: "events",
+    title: "Campus Discovery",
+    description: "Unified listings of campus workshops, student-led hackathons, and fairs.",
+    badge: "RSVP",
+    badgeClasses: "bg-purple-50 text-purple-700 border-purple-100",
+    icon: <Calendar className="w-3.5 h-3.5" />,
+    actionText: "Browse Events",
+    phase: "Phase 2: Explore & Match",
+    stepNum: 4
+  },
+  {
+    id: "chat",
+    title: "In-App Student Chat",
+    description: "Contextual, listing-tied relative instant messaging to arrange transaction details.",
+    badge: "Real-Time",
+    badgeClasses: "bg-sky-50 text-sky-700 border-sky-100",
+    icon: <MessageSquare className="w-3.5 h-3.5" />,
+    actionText: "Test Student Chat",
+    phase: "Phase 3: Secure Negotiation",
+    stepNum: 5
+  },
+  {
+    id: "booking",
+    title: "Structured Escrow Holds",
+    description: "Robust hold reservation flow guarding bank receipts, meetups, and reviews.",
+    badge: "Escrow",
+    badgeClasses: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    icon: <CheckSquare className="w-3.5 h-3.5" />,
+    actionText: "Advance Holds",
+    phase: "Phase 3: Secure Negotiation",
+    stepNum: 6
+  },
+  {
+    id: "meetup",
+    title: "Campus Hotspots",
+    description: "Safe, pre-vetted campus exchange collection hubs protecting peer trade.",
+    badge: "Location",
+    badgeClasses: "bg-rose-50 text-rose-700 border-rose-100",
+    icon: <MapPin className="w-3.5 h-3.5" />,
+    actionText: "Inspect Meetups",
+    phase: "Phase 4: Order Fulfillment & Trust",
+    stepNum: 7
+  },
+  {
+    id: "reviews",
+    title: "Reputation Scoring",
+    description: "Verified historical star logs that aggregate transparent student seller feedback.",
+    badge: "Trust",
+    badgeClasses: "bg-amber-50 text-amber-700 border-amber-100",
+    icon: <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />,
+    actionText: "Audit Ratings",
+    phase: "Phase 4: Order Fulfillment & Trust",
+    stepNum: 8
+  },
+  {
+    id: "moderation",
+    title: "Moderators Dashboard",
+    description: "Enforcement mechanics for tracking student flag alerts and banning bad listings.",
+    badge: "Standards",
+    badgeClasses: "bg-red-50 text-red-700 border-red-100",
+    icon: <Sliders className="w-3.5 h-3.5" />,
+    actionText: "Admin Roster",
+    phase: "Phase 5: Platform Standards",
+    stepNum: 9,
+    isEnd: true
   }
 ];
 
@@ -584,38 +603,73 @@ export default function SolutionsView() {
         </div>
 
         {/* SECTION 6: Key Capabilities Grid */}
-        <div id="key-capabilities-section" className="mt-4">
+        <div id="key-capabilities-section" className="mt-4 relative px-0.5">
+          
+          {/* Main vertical track line represented as a subtle polished dashed line in the center, running behind the cards */}
+          <div className="absolute left-1/2 -translate-x-1/2 top-4 bottom-12 w-0 border-l border-dashed border-neutral-300/80 z-0 pointer-events-none" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {capabilities.map((cap) => (
-              <div 
-                key={cap.id}
-                onClick={() => handleCapabilityClick(cap.id)}
-                className={`p-4 rounded-xl border transition-all duration-300 cursor-pointer flex flex-col justify-start group/card relative overflow-hidden ${
-                  activeCapability === cap.id 
-                    ? "bg-[#800020]/[0.03] border-[#800020]/40 shadow-xs ring-1 ring-[#800020]/20" 
-                    : "bg-white/80 backdrop-blur-xs border-neutral-200/70 hover:border-neutral-300 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] shadow-[0_2px_8px_rgba(0,0,0,0.015)]"
-                } ${cap.isWide ? "sm:col-span-2" : ""}`}
-              >
-                <div className="flex gap-3.5 items-start">
-                  <div className={`p-2 rounded-lg border shrink-0 transition-all duration-300 ${
-                    activeCapability === cap.id
-                      ? "bg-white border-[#800020]/30 text-[#800020]"
-                      : "bg-[#F5F5F5] border-neutral-200 text-neutral-700 group-hover/card:bg-neutral-100 group-hover/card:text-neutral-900"
-                  }`}>
-                    {cap.icon}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-[13px] font-bold text-neutral-800 leading-snug tracking-tight group-hover/card:text-neutral-900 transition-colors">
-                      {cap.title}
-                    </h3>
-                    <p className="text-[11px] text-neutral-500 leading-relaxed mt-0.5 font-normal">
-                      {cap.description}
-                    </p>
+          <div className="space-y-5 relative z-10">
+            {capabilities.map((cap, index) => {
+              // Determine if the phase changed compared to previous step to render a beautiful sticky/inline phase group header
+              const showPhaseHeader = index === 0 || capabilities[index - 1].phase !== cap.phase;
+              const isActive = activeCapability === cap.id;
+
+              return (
+                <div key={cap.id} className="space-y-2">
+                  {showPhaseHeader && (
+                    <div className="flex items-center justify-center pt-3 pb-1 first:pt-1 relative z-10">
+                      <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#800020] bg-white border border-[#800020]/15 px-3 py-1 rounded-full shadow-2xs">
+                        {cap.phase}
+                      </span>
+                    </div>
+                  )}
+
+                  <div 
+                    onClick={() => handleCapabilityClick(cap.id)}
+                    className={`group/card relative flex gap-4 p-4 rounded-xl border transition-all duration-300 cursor-pointer select-none bg-white ${
+                      isActive 
+                        ? "bg-slate-50/50 border-[#800020]/40 shadow-xs ring-1 ring-[#800020]/20 translate-x-[1px]" 
+                        : "border-neutral-200/80 hover:border-neutral-300 hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.025)] shadow-[0_2px_8px_rgba(0,0,0,0.015)]"
+                    }`}
+                  >
+                    {/* Step Number Badge */}
+                    <div className="flex flex-col items-center justify-center w-8 h-8 rounded-lg text-[11px] font-extrabold shrink-0 border transition-all duration-300 bg-[#F5F5F5] border-neutral-200/80 text-neutral-400 group-hover/card:bg-white group-hover/card:text-neutral-600 group-hover/card:border-neutral-300 font-mono">
+                      {String(cap.stepNum).padStart(2, '0')}
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                        <h3 className="text-[13px] font-bold text-neutral-800 leading-snug tracking-tight group-hover/card:text-neutral-950 transition-colors">
+                          {cap.title}
+                        </h3>
+                        {cap.isStart && (
+                          <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase tracking-wider">
+                            Start of Flow
+                          </span>
+                        )}
+                        {cap.isEnd && (
+                          <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-100 uppercase tracking-wider">
+                            End of Flow
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11.5px] text-neutral-500 leading-relaxed font-normal">
+                        {cap.description}
+                      </p>
+                    </div>
+
+                    {/* Right Icon inside Card */}
+                    <div className={`p-2 rounded-lg border shrink-0 transition-all duration-300 self-center ${
+                      isActive
+                        ? "bg-white border-[#800020]/25 text-[#800020] scale-102"
+                        : "bg-[#F5F5F5] border-neutral-200 text-neutral-500 group-hover/card:bg-white group-hover/card:text-neutral-800"
+                    }`}>
+                      {cap.icon}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
