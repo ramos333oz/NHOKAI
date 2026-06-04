@@ -6,7 +6,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import SolutionsView from "./components/SolutionsView";
-import nhokaiLogo from "../Logo/nhokai_4-removebg-preview.png";
+import nhokaiLogo from "../Logo/NHOKAI.png";
 import omarbImg from "../team-pictures/omarb.png";
 import azmilImg from "../team-pictures/azmil-removebg-preview.png";
 import khaiImg from "../team-pictures/khai-image-removebg-preview.png";
@@ -467,9 +467,6 @@ export default function App() {
               alt="NHOKAI logo" 
               className="h-[28px] w-auto select-none pointer-events-none object-contain"
             />
-            <span className="text-[15px] font-extrabold tracking-tight text-[#111111]">
-              NHOKAI
-            </span>
           </a>
 
           {/* Center: Desktop Nav links */}
@@ -595,7 +592,7 @@ export default function App() {
         <div className="w-full bg-[#F5F5F5] pt-3 px-3 sm:pt-5 sm:px-5 md:pt-6 md:px-6 lg:pt-8 lg:px-8 pb-3 sm:pb-5 md:pb-6 lg:pb-8 shrink-0 flex flex-col">
           
           {/* Main Visual Frame Rounder-Container */}
-          <div className="relative w-full max-w-7xl mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden border border-neutral-300 bg-white shadow-[0_24px_64px_-16px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.12)] flex flex-col transition-all duration-300">
+          <div className="relative w-full max-w-[1440px] mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden border border-neutral-300 bg-white shadow-[0_24px_64px_-16px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.12)] flex flex-col transition-all duration-300">
             
             {/* SECTION 1: HERO */}
             <section 
