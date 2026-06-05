@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { ArrowUpRight, Mail, Phone, X } from "lucide-react";
 import PingPongBackgroundVideo from "./components/PingPongBackgroundVideo";
 import SolutionsView from "./components/SolutionsView";
 import nhokaiLogo from "../Logo/NHOKAI-bg-removed.png";
@@ -44,6 +45,7 @@ interface TeamMember {
 export default function App() {
   const [activeView, setActiveView] = useState<'404' | 'team' | 'solutions'>('404');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [showActiveCore, setShowActiveCore] = useState<boolean>(true);
   
@@ -63,6 +65,19 @@ export default function App() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  React.useEffect(() => {
+    if (!isContactModalOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsContactModalOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isContactModalOpen]);
 
   // Update activeView state on scroll
   React.useEffect(() => {
@@ -124,6 +139,11 @@ export default function App() {
         behavior: 'smooth'
       });
     }
+  };
+
+  const handleOpenContactModal = () => {
+    setIsMobileMenuOpen(false);
+    setIsContactModalOpen(true);
   };
 
   const teamMembers: TeamMember[] = [
@@ -482,8 +502,9 @@ export default function App() {
           {/* Right: Desktop CTA Button */}
           <div className="hidden md:block">
             <button 
-            id="cta-connect-desktop"
+              id="cta-connect-desktop"
               type="button"
+              onClick={handleOpenContactModal}
               style={{ 
                 boxShadow: '0 4px 12px rgba(0,0,0,0.05)' 
               }}
@@ -555,6 +576,7 @@ export default function App() {
             <button 
               id="cta-connect-mobile"
               type="button"
+              onClick={handleOpenContactModal}
               style={{ 
                 backgroundImage: 'linear-gradient(180deg, #2c2c2c 0%, #111111 100%)', 
                 boxShadow: '0 4px 15px rgba(0,0,0,0.15)' 
@@ -571,6 +593,121 @@ export default function App() {
           </div>
         </nav>
       </div>
+
+      <AnimatePresence>
+        {isContactModalOpen && (
+          <motion.div
+            id="contact-modal"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/35 px-4 py-6 backdrop-blur-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            onClick={() => setIsContactModalOpen(false)}
+          >
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="contact-modal-title"
+              className="relative w-full max-w-[440px] overflow-hidden rounded-[28px] border border-neutral-200 bg-white text-neutral-950 shadow-[0_28px_80px_rgba(0,0,0,0.22)]"
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 18, scale: 0.97 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setIsContactModalOpen(false)}
+                aria-label="Close contact modal"
+                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-black/10 bg-white/85 text-neutral-950 shadow-sm backdrop-blur-sm transition-all duration-200 hover:bg-white active:scale-95"
+              >
+                <X aria-hidden="true" className="h-4 w-4" strokeWidth={2.4} />
+              </button>
+
+              <div className="relative bg-[#F5F5F5] px-6 pb-5 pt-7">
+                <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white to-transparent" />
+                <div className="relative flex items-center gap-4">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-neutral-200 bg-white shadow-inner">
+                    <img
+                      src={nhokaiLogo}
+                      alt="NHOKAI logo"
+                      className="h-10 w-auto select-none object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0 pr-10">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                      NHOKAI Contact
+                    </p>
+                    <h2 id="contact-modal-title" className="mt-1 text-[28px] font-black leading-none tracking-tight">
+                      Omar
+                    </h2>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 px-6 pb-6 pt-5">
+                <div className="rounded-2xl border border-neutral-200 bg-neutral-50 p-3">
+                  <a
+                    href="tel:+60135406421"
+                    className="group flex items-center gap-3 rounded-xl bg-white px-3 py-3 text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm"
+                  >
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-neutral-950 text-white">
+                      <Phone aria-hidden="true" className="h-4 w-4" strokeWidth={2.4} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-500">
+                        Phone
+                      </span>
+                      <span className="block truncate text-[15px] font-bold text-neutral-950">
+                        +60135406421
+                      </span>
+                    </span>
+                    <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-neutral-950" />
+                  </a>
+
+                  <div className="my-2 h-px bg-neutral-200" />
+
+                  <a
+                    href="mailto:Inquiry@nhokai.com"
+                    className="group flex items-center gap-3 rounded-xl bg-white px-3 py-3 text-left transition-all duration-200 hover:-translate-y-[1px] hover:shadow-sm"
+                  >
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FAB114] text-neutral-950">
+                      <Mail aria-hidden="true" className="h-4 w-4" strokeWidth={2.4} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-neutral-500">
+                        Email
+                      </span>
+                      <span className="block truncate text-[15px] font-bold text-neutral-950">
+                        Inquiry@nhokai.com
+                      </span>
+                    </span>
+                    <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-neutral-400 transition-colors group-hover:text-neutral-950" />
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <a
+                    href="tel:+60135406421"
+                    className="flex items-center justify-center gap-2 rounded-full bg-neutral-950 px-4 py-3 text-[13px] font-bold text-white shadow-sm transition-all duration-200 hover:bg-black active:scale-95"
+                  >
+                    <Phone aria-hidden="true" className="h-4 w-4" strokeWidth={2.4} />
+                    Call
+                  </a>
+                  <a
+                    href="mailto:Inquiry@nhokai.com"
+                    className="flex items-center justify-center gap-2 rounded-full border border-neutral-300 bg-white px-4 py-3 text-[13px] font-bold text-neutral-950 shadow-sm transition-all duration-200 hover:bg-neutral-50 active:scale-95"
+                  >
+                    <Mail aria-hidden="true" className="h-4 w-4" strokeWidth={2.4} />
+                    Email
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Multi-Section Smooth Scroll Element */}
       <div 
