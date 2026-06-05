@@ -31,6 +31,7 @@ import {
   Trash2,
   UserCheck
 } from "lucide-react";
+import ucLogo from "../../Logo/UC-bg-removed.png";
 
 // Types for Simulator
 interface Listing {
@@ -70,98 +71,13 @@ interface ChatMessage {
 }
 
 // Minimal core capabilities configuration
-const UniCartLogo = () => (
-  <svg
-    viewBox="0 0 102 100"
-    className="w-20 h-20 md:w-24 md:h-24 shrink-0 select-none transform hover:scale-105 transition-all duration-300"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    {/* LAYER 1: Deep Royal Purple 'U' shape */}
-    <path
-      d="M 18,16
-         h 18
-         v 34
-         c 0,4.42 3.58,8 8,8
-         c 4.42,0 8,-3.58 8,-8
-         V 32
-         c 0,-8.84 7.16,-16 16,-16
-         c 8.84,0 16,7.16 16,16
-         v 18
-         c 0,18.23 -14.77,33 -33,33
-         c -18.23,0 -33,-14.77 -33,-33
-         V 16
-         Z"
-      fill="#5F2582"
-    />
-    
-    {/* LAYER 2: Interlocking Golden Yellow 'C' shape with white masking contour */}
-    <path
-      d="M 84,83
-         h -18
-         v -34
-         c 0,-4.42 -3.58,-8 -8,-8
-         c -4.42,0 -8,3.58 -8,8
-         V 67
-         c 0,8.84 -7.16,16 -16,16
-         c -8.84,0 -16,-7.16 -16,-16
-         v -18
-         c 0,-18.23 14.77,-33 33,-33
-         c 18.23,0 33,14.77 33,33
-         V 83
-         Z"
-      stroke="#ffffff"
-      strokeWidth="4"
-      strokeLinejoin="round"
-      fill="#FAB114"
-    />
-    <path
-      d="M 84,83
-         h -18
-         v -34
-         c 0,-4.42 -3.58,-8 -8,-8
-         c -4.42,0 -8,3.58 -8,8
-         V 67
-         c 0,8.84 -7.16,16 -16,16
-         c -8.84,0 -16,-7.16 -16,-16
-         v -18
-         c 0,-18.23 14.77,-33 33,-33
-         c 18.23,0 33,14.77 33,33
-         V 83
-         Z"
-      fill="#FAB114"
-    />
-
-    {/* LAYER 3: 3D Weave Redraw of Left/Bottom Purple 'U' arm on top of Golden Yellow 'C' with white outline */}
-    <path
-      d="M 18,16
-         h 18
-         v 34
-         c 0,4.42 3.58,8 8,8
-         c 4.42,0 8,-3.58 8,-8
-         V 50
-         H 51
-         A 33 33 0 0 1 18,50
-         V 16
-         Z"
-      stroke="#ffffff"
-      strokeWidth="4"
-      strokeLinejoin="round"
-      fill="none"
-    />
-    <path
-      d="M 18,16
-         h 18
-         v 34
-         c 0,4.42 3.58,8 8,8
-         c 4.42,0 8,-3.58 8,-8
-         V 50
-         H 51
-         A 33 33 0 0 1 18,50
-         V 16
-         Z"
-      fill="#5F2582"
-    />
-  </svg>
+const UnicartLogo = () => (
+  <img
+    src={ucLogo}
+    alt="Unicart logo"
+    className="h-24 w-24 md:h-28 md:w-28 shrink-0 select-none object-contain drop-shadow-[0_10px_24px_rgba(31,31,31,0.08)] transition-transform duration-300 hover:scale-105"
+    draggable={false}
+  />
 );
 
 const capabilities = [
@@ -553,7 +469,7 @@ export default function SolutionsView() {
 
     // Simulate seller smart response
     setTimeout(() => {
-      let botResponse = "Salam, okay sure. Let's process the book/listing via the transaction booking interface on UniCart! It is much safer.";
+      let botResponse = "Salam, okay sure. Let's process the book/listing via the transaction booking interface on Unicart! It is much safer.";
       if (userMsg.text.toLowerCase().includes("where")) {
         botResponse = "I can do meetup at PTAR Main Entrance during lunch time. Does that work for you?";
       } else if (userMsg.text.toLowerCase().includes("price") || userMsg.text.toLowerCase().includes("cheap")) {
@@ -582,23 +498,17 @@ export default function SolutionsView() {
       <div className="w-full md:w-[55%] xl:w-[58%] overflow-y-auto px-5 md:px-10 lg:pl-12 py-8 text-left flex flex-col justify-start [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         
         {/* SECTION 4: Featured Product Header */}
-        <div className="mb-6 animate-fade-in flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6" id="featured-product-header">
-          <div className="flex-grow">
+        <div className="mb-8 animate-fade-in flex flex-col items-center text-center gap-4 px-2" id="featured-product-header">
+          <UnicartLogo />
+
+          <div className="max-w-[580px]">
             <h1 className="text-4xl lg:text-5xl font-black text-neutral-900 leading-none tracking-tight">
-              UniCart
+              Unicart
             </h1>
-            <p className="text-md font-medium text-neutral-700 tracking-tight mt-2 max-w-[550px]">
-              Mobile-first student marketplace built for verified UiTM campuses.
+            <div className="h-[2px] bg-[#800020]/25 my-4 mx-auto w-12"></div>
+            <p className="text-xs md:text-[13px] text-neutral-500 leading-relaxed font-normal">
+              A trusted campus commerce app that helps verified UiTM students discover listings, coordinate safely, reserve items with confidence, and build reliable peer feedback in one familiar flow.
             </p>
-            <div className="h-[2px] bg-[#800020]/20 my-4 w-10"></div>
-            <p className="text-xs md:text-[13px] text-neutral-500 leading-relaxed max-w-[520px] font-normal">
-              UniCart resolves informal trading overhead by uniting student listing management, secure peer communication, and transaction safety. It moves transactions from scattered messaging channels into a single trustworthy campus network with custom escrow hold reservation flows, pre-vetted campus collection coordinates, and peer-verified feedback profiles.
-            </p>
-          </div>
-          
-          {/* Logo container placed precisely in the circled region */}
-          <div className="shrink-0 flex items-center justify-center p-3 bg-white/70 rounded-3xl border border-neutral-200/50 shadow-[0_4px_12px_rgba(0,0,0,0.02)] self-start sm:self-center mr-0 md:mr-4 lg:mr-8 transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
-            <UniCartLogo />
           </div>
         </div>
 
@@ -745,10 +655,15 @@ export default function SolutionsView() {
             {/* IN-APP HEADER */}
             <div className="bg-white border-b border-neutral-100 p-3 flex items-center justify-between relative z-20 shadow-xs shrink-0">
               <div className="flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded bg-gradient-to-br from-[#800020] to-purple-950 flex items-center justify-center text-white font-black text-[9px]">U</span>
+                <img
+                  src={ucLogo}
+                  alt="Unicart logo"
+                  className="h-5 w-5 shrink-0 object-contain"
+                  draggable={false}
+                />
                 <div>
                   <h4 className="font-bold text-[11px] text-neutral-800 tracking-tight flex items-center gap-1 uppercase">
-                    UniCart
+                    Unicart
                     <span className="text-[7.5px] font-black text-[#800020] bg-[#800020]/5 px-1 rounded">UiTM</span>
                   </h4>
                 </div>
@@ -1102,7 +1017,7 @@ export default function SolutionsView() {
                           className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-2 text-[10px] focus:outline-none focus:border-indigo-500 focus:bg-white"
                         />
                         <p className="text-[8px] text-neutral-400 mt-1 leading-relaxed">
-                          Only verified email accounts ending in <code className="bg-neutral-100 p-0.5 rounded">@student.uitm.edu.my</code> coordinates are accepted on UniCart.
+                          Only verified email accounts ending in <code className="bg-neutral-100 p-0.5 rounded">@student.uitm.edu.my</code> coordinates are accepted on Unicart.
                         </p>
                       </div>
 
@@ -1238,7 +1153,7 @@ export default function SolutionsView() {
                           <span className="text-[8px] font-black uppercase text-[#800020] bg-purple-50 px-2 py-0.5 rounded">Step 1: Initiate booking Request</span>
                           <h4 className="font-bold text-[11px] text-neutral-800 mt-2">Book item for security hold</h4>
                           <p className="text-[9.5px] text-neutral-500 leading-relaxed font-light mt-1">
-                            When you click below, a locking hold is requested. The seller Ahmad Danish will receive an instant push notification inside UniCart to lock listing: 
+                            When you click below, a locking hold is requested. The seller Ahmad Danish will receive an instant push notification inside Unicart to lock listing: 
                             <strong className="text-neutral-700 block mt-0.5">"{selectedListing.title}" (RM {selectedListing.price})</strong>
                           </p>
                         </div>
@@ -1430,7 +1345,7 @@ export default function SolutionsView() {
                           <span className="text-[8px] font-black uppercase text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Step 6: Meetup & Delivery</span>
                           <h4 className="font-bold text-[11px] text-neutral-800 mt-2">Meet Seller at Predefined Zone</h4>
                           <p className="text-[9.5px] text-neutral-500 leading-relaxed font-light mt-1">
-                            Coordinate with Ahmad via UniCart chat. Meet safely at the locked coord: 
+                            Coordinate with Ahmad via Unicart chat. Meet safely at the locked coord: 
                             <strong className="text-[#800020] block mt-0.5">"{selectedMeetupPoint}"</strong>
                             Once you physically inspect the item & finish exchange, click "Complete Trade" below.
                           </p>
@@ -1477,7 +1392,7 @@ export default function SolutionsView() {
 
                         <button
                           onClick={() => {
-                            triggerToast("Trust system updated. Thank you for using UniCart!");
+                            triggerToast("Trust system updated. Thank you for using Unicart!");
                             
                             // Dynamically insert review statement into selected listing review log, let's update state
                             const currentListingsCopy = [...listings];
@@ -1604,7 +1519,7 @@ export default function SolutionsView() {
                   <div className="flex items-center justify-between text-left px-0.5">
                     <div>
                       <h4 className="font-black text-[12px] text-neutral-800">Campus Events RSVP</h4>
-                      <p className="text-[8.5px] text-neutral-400">Expand UniCart into active campus discovery.</p>
+                      <p className="text-[8.5px] text-neutral-400">Expand Unicart into active campus discovery.</p>
                     </div>
                     <span className="p-1 px-2 rounded-full bg-[#800020]/10 text-[#800020] text-[8px] font-bold">UiTM Portal</span>
                   </div>

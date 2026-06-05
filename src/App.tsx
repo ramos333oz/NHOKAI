@@ -5,8 +5,9 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import PingPongBackgroundVideo from "./components/PingPongBackgroundVideo";
 import SolutionsView from "./components/SolutionsView";
-import nhokaiLogo from "../Logo/NHOKAI.png";
+import nhokaiLogo from "../Logo/NHOKAI-bg-removed.png";
 import omarbImg from "../team-pictures/omarb.png";
 import azmilImg from "../team-pictures/azmil-removebg-preview.png";
 import khaiImg from "../team-pictures/khai-image-removebg-preview.png";
@@ -43,7 +44,6 @@ interface TeamMember {
 export default function App() {
   const [activeView, setActiveView] = useState<'404' | 'team' | 'solutions'>('404');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [showActiveCore, setShowActiveCore] = useState<boolean>(true);
   
@@ -101,13 +101,6 @@ export default function App() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const showToast = (message: string) => {
-    setToastMessage(message);
-    setTimeout(() => {
-      setToastMessage((prev) => (prev === message ? null : prev));
-    }, 2800);
-  };
-
   const handleLinkClick = (e: React.MouseEvent, section: string) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
@@ -115,15 +108,11 @@ export default function App() {
     let targetId = "";
     if (section === "Our Team") {
       targetId = "team-section";
-      showToast("Scrolling to NHOKAI solutions interactive team roster...");
     } else if (section === "Home") {
       targetId = "hero-section";
-      showToast("Scrolling to Hero page.");
     } else if (section === "Solutions") {
       targetId = "solutions-section";
-      showToast("Scrolling to NHOKAI Solutions: UniCart Showcase...");
     } else {
-      showToast(`Connecting: ${section}...`);
       return;
     }
 
@@ -434,16 +423,6 @@ export default function App() {
       className="w-full h-screen flex flex-col justify-between overflow-hidden select-none relative font-sans text-[#1a1a1a]"
     >
       
-      {/* Toast Notification */}
-      <div 
-        className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-[#111111] text-white text-xs md:text-sm px-6 py-3 rounded-full shadow-2xl transition-all duration-300 flex items-center gap-2 pointer-events-none ${
-          toastMessage ? "translate-y-0 opacity-100" : "-translate-y-8 opacity-0"
-        }`}
-      >
-        <span className="material-symbols-rounded text-green-400 text-sm md:text-base">check_circle</span>
-        <span>{toastMessage}</span>
-      </div>
-
       {/* Header / Navbar (Sticky, floating, unified pill design) */}
       <header 
         style={{
@@ -503,11 +482,11 @@ export default function App() {
           {/* Right: Desktop CTA Button */}
           <div className="hidden md:block">
             <button 
-              id="cta-connect-desktop"
+            id="cta-connect-desktop"
+              type="button"
               style={{ 
                 boxShadow: '0 4px 12px rgba(0,0,0,0.05)' 
               }}
-              onClick={(e) => showToast("Connecting: contact workflow initiated...")}
               className="bg-neutral-900 border border-neutral-800 hover:bg-black text-white text-[11.5px] font-medium px-4 py-1.5 rounded-full shadow-sm transition-all cursor-pointer hover:-translate-y-[1px] active:scale-95"
             >
               Let's Connect
@@ -537,6 +516,17 @@ export default function App() {
         }`}
         id="mobile-navigation-overlay"
       >
+        <button
+          type="button"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-label="Close mobile menu"
+          className="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[#111111] shadow-[0_8px_24px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-200 hover:bg-white active:scale-95"
+        >
+          <span aria-hidden="true" className="text-[28px] leading-none">
+            &times;
+          </span>
+        </button>
+
         <nav className="flex flex-col text-left max-w-[400px] mx-auto w-full">
           <a 
             href="#" 
@@ -564,11 +554,11 @@ export default function App() {
           <div className="pt-[30px]">
             <button 
               id="cta-connect-mobile"
+              type="button"
               style={{ 
                 backgroundImage: 'linear-gradient(180deg, #2c2c2c 0%, #111111 100%)', 
                 boxShadow: '0 4px 15px rgba(0,0,0,0.15)' 
               }}
-              onClick={(e) => showToast("Integrating contact workflows...")}
               className="flex items-center gap-[12px] text-white rounded-[40px] pt-[7px] pb-[7px] pr-[20px] pl-[7px] transition-all duration-200 cursor-pointer text-[15px] font-medium hover:scale-[1.02] active:scale-95"
             >
               <div className="w-[32px] h-[32px] rounded-full bg-white flex items-center justify-center text-black shrink-0">
@@ -585,14 +575,14 @@ export default function App() {
       {/* Main Multi-Section Smooth Scroll Element */}
       <div 
         ref={scrollContainerRef}
-        className="flex-grow w-full h-full overflow-y-auto scroll-smooth flex flex-col relative z-20"
+        className="flex-grow w-full h-full overflow-y-auto scroll-smooth invisible-scrollbar flex flex-col relative z-20"
       >
         
         {/* UNIFIED MASSIVE CORE WEB FRAME AND CONTAINER */}
         <div className="w-full bg-[#F5F5F5] pt-3 px-3 sm:pt-5 sm:px-5 md:pt-6 md:px-6 lg:pt-8 lg:px-8 pb-3 sm:pb-5 md:pb-6 lg:pb-8 shrink-0 flex flex-col">
           
           {/* Main Visual Frame Rounder-Container */}
-          <div className="relative w-full max-w-[1440px] mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden border border-neutral-300 bg-white shadow-[0_24px_64px_-16px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.12)] flex flex-col transition-all duration-300">
+          <div className="relative w-full max-w-none mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden border border-neutral-300 bg-white shadow-[0_24px_64px_-16px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.12)] flex flex-col transition-all duration-300">
             
             {/* SECTION 1: HERO */}
             <section 
@@ -602,13 +592,9 @@ export default function App() {
             
             {/* Background Video cover (clipping matches parent curves) */}
             <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-              <video
+              <PingPongBackgroundVideo
                 className="w-full h-full object-cover select-none pointer-events-none"
                 src={nhokaiVideo}
-                autoPlay
-                loop
-                muted
-                playsInline
               />
               {/* Wash overlay to soften the video elements and make text highly readable */}
               <div className="absolute inset-0 bg-[#F5F5F5]/65 backdrop-blur-[2px]" />
@@ -685,13 +671,9 @@ export default function App() {
           >
             {/* Background Video cover for Our Team section */}
             <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-              <video
+              <PingPongBackgroundVideo
                 className="w-full h-full object-cover select-none pointer-events-none"
                 src={nhokaiVideo2}
-                autoPlay
-                loop
-                muted
-                playsInline
               />
               {/* Soft overlay matching brand aesthetic for readability */}
               <div className="absolute inset-0 bg-white/75 backdrop-blur-[3px]" />
@@ -944,13 +926,9 @@ export default function App() {
         >
           {/* Background Video cover for Solutions section */}
           <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-            <video
+            <PingPongBackgroundVideo
               className="w-full h-full object-cover select-none pointer-events-none"
               src={nhokaiVideo3}
-              autoPlay
-              loop
-              muted
-              playsInline
             />
             {/* Soft overlay matching brand aesthetic for readability */}
             <div className="absolute inset-0 bg-white/75 backdrop-blur-[3px]" />
