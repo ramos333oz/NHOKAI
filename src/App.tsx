@@ -1061,7 +1061,7 @@ export default function App() {
           id="solutions-section" 
           className="relative w-full min-h-screen shrink-0 pt-24 pb-12 bg-transparent overflow-hidden"
         >
-          <div className="absolute top-0 left-0 right-0 h-[30vh] bg-gradient-to-b from-white via-white/95 via-white/55 to-transparent z-20 pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-[22vh] bg-gradient-to-b from-white via-white/80 via-white/30 to-transparent z-20 pointer-events-none" />
 
           {/* Background Video cover for Solutions section */}
           <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
@@ -1079,7 +1079,7 @@ export default function App() {
             <div className="absolute bottom-0 left-0 right-0 h-[25vh] bg-gradient-to-t from-white via-white/85 via-white/35 to-transparent z-10" />
           </div>
 
-          <div className="relative z-10">
+          <div className="relative z-30">
             <SolutionsView />
           </div>
         </section>
