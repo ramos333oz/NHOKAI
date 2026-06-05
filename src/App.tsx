@@ -451,7 +451,7 @@ export default function App() {
         className="fixed top-0 left-0 right-0 z-40 w-full flex justify-center pointer-events-none"
       >
         <div 
-          className="w-full md:w-[85%] lg:w-[75%] max-w-[820px] bg-[#F5F5F5]/90 backdrop-blur-md h-[56px] border-b md:border-l md:border-r border-neutral-300 rounded-b-none md:rounded-b-[24px] px-5 shadow-[0_4px_12px_rgba(0,0,0,0.02)] flex items-center justify-between pointer-events-auto transition-all duration-300"
+          className="w-full md:w-[85%] lg:w-[75%] max-w-[820px] bg-[#F5F5F5]/88 backdrop-blur-xl h-[56px] rounded-b-none md:rounded-b-[24px] px-5 shadow-[0_12px_34px_-22px_rgba(0,0,0,0.28),_inset_0_-1px_0_rgba(255,255,255,0.72)] ring-1 ring-black/[0.06] flex items-center justify-between pointer-events-auto transition-all duration-300"
         >
           
           {/* Left: Logo */}
@@ -719,7 +719,7 @@ export default function App() {
         <div className="w-full bg-[#F5F5F5] pt-3 px-3 sm:pt-5 sm:px-5 md:pt-6 md:px-6 lg:pt-8 lg:px-8 pb-3 sm:pb-5 md:pb-6 lg:pb-8 shrink-0 flex flex-col">
           
           {/* Main Visual Frame Rounder-Container */}
-          <div className="relative w-full max-w-none mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden border border-neutral-300 bg-white shadow-[0_24px_64px_-16px_rgba(0,0,0,0.08),_0_0_1px_rgba(0,0,0,0.12)] flex flex-col transition-all duration-300">
+          <div className="relative w-full max-w-none mx-auto rounded-[28px] sm:rounded-[36px] md:rounded-[48px] overflow-hidden bg-white shadow-[0_28px_74px_-28px_rgba(0,0,0,0.16),_inset_0_1px_0_rgba(255,255,255,0.88)] ring-1 ring-black/[0.06] flex flex-col transition-all duration-300">
             
             {/* SECTION 1: HERO */}
             <section 
@@ -819,7 +819,7 @@ export default function App() {
               <div className="absolute top-0 left-0 right-0 h-[25vh] bg-gradient-to-b from-white via-white/85 via-white/35 to-transparent z-10" />
 
               {/* Bottom feathering blend layer */}
-              <div className="absolute bottom-0 left-0 right-0 h-[25vh] bg-gradient-to-t from-white via-white/85 via-white/35 to-transparent z-10" />
+              <div className="absolute bottom-0 left-0 right-0 h-[34vh] bg-gradient-to-t from-white via-white/95 via-white/70 to-transparent z-10" />
             </div>
 
             {/* Section Header with Big Centered Text */}
@@ -1061,6 +1061,8 @@ export default function App() {
           id="solutions-section" 
           className="relative w-full min-h-screen shrink-0 pt-24 pb-12 bg-transparent overflow-hidden"
         >
+          <div className="absolute top-0 left-0 right-0 h-[30vh] bg-gradient-to-b from-white via-white/95 via-white/55 to-transparent z-20 pointer-events-none" />
+
           {/* Background Video cover for Solutions section */}
           <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
             <PingPongBackgroundVideo
